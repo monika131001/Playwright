@@ -24,15 +24,52 @@ test("Browser Context Test", async ({ page }) => {
   console.log(allTitles);
 });
 
-test.only("UI Controls", async ({ page }) => {
+// test.only("UI Controls", async ({ page }) => {
+//   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+//   const userName = page.locator("#username");
+//   const password = page.locator("#password");
+//   const userRadio = page.locator(".radiotextsty");
+//   const terms = page.locator("#terms");
+//   const Link = page.locator("[href*='documents-request']");
+
+//   await userName.fill("Monika");
+//   await password.fill("Learning@830$3mK2");
+//   await userRadio.last().click();
+//   await page.locator("#okayBtn").click();
+//   await page.locator(".form-group select").selectOption("consult");
+
+//   //Assertion
+//   await expect(userRadio.last()).toBeChecked();
+//   await terms.click();
+//   await expect(terms).toBeChecked();
+//   await terms.uncheck();
+//   expect(await terms.isChecked()).toBeFalsy();
+//   await expect(Link).toContainText("Access");
+
+//   await Link.click();
+// });
+
+test.only("Child Window", async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const Link = page.locator("[href*='documents-request']");
+   const userName = page.locator("#username");
+
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
-  const userName = page.locator("#username");
-  const password = page.locator("#password");
 
-  await userName.fill("Monika");
-  await password.fill("Learning@830$3mK2");
+  const [newPage] = await Promise.all([
+    context.waitForEvent("page"),
+    Link.click(),
+  ]);
+  const text = await newPage.locator(".red").textContent();
 
-  await page.locator(".radiotextsty").last().click();
-  await page.locator(".form-group select").selectOption("consult");
-  await page.pause();
+  const arrText = text.split("@");
+  const domain = arrText[1].split(" ")[0];
+  // console.log(domain);
+
+ await userName.fill(domain);
+ console.log(await userName.inputValue());
+ page.pause();
+
+  
 });
