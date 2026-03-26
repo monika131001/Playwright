@@ -37,6 +37,8 @@ test.only("Login Test", async ({ page }) => {
   const loginBtn = page.locator("#login");
   const products = page.locator(".card-body");
   const productName = "ZARA COAT 3";
+  const dropdown = page.locator(".ta-results");
+  const shippingInfo = page.locator(".user__name [type='text']");
 
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await emailLocator.fill(emailId);
@@ -58,4 +60,31 @@ test.only("Login Test", async ({ page }) => {
   await page.locator("div li").first().waitFor();
   const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
   expect(bool).toBeTruthy();
-});
+
+  await page.locator("text=Checkout").click();
+  await page
+    .locator("[placeholder*='Country']")
+    .pressSequentially("ind", { delay: 150 });
+
+  await dropdown.waitFor();
+  const optionCount = await dropdown.locator("button").count();
+  // console.log(optionCount);
+
+  for (let i = 0; i < optionCount; i++) {
+    const countryName = await dropdown.locator("button").nth(i).textContent();
+
+    if (countryName === " India") {
+      await dropdown.locator("button").nth(i).click();
+      break;
+    }
+  }
+
+  await expect(shippingInfo.first()).toHaveText(emailId);
+  await page.locator(".action__submit").click();
+
+  await expect(page.locator(".hero-primary")).toContainText("Thankyou");
+
+  const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+  console.log(orderId);
+
+}); 
