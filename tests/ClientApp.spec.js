@@ -11,7 +11,6 @@ test("Register Test", async ({ page }) => {
   const confirmPassword = page.locator("#confirmPassword");
   const checkbox = page.locator("[type='checkbox']");
   const submitBtn = page.locator("[type='submit']");
-
   const emailId = `moni13@gmail.com`;
   const pass = "1234567@aA8";
 
@@ -29,7 +28,7 @@ test("Register Test", async ({ page }) => {
   await submitBtn.click();
 });
 
-test.only("Login Test", async ({ page }) => {
+test("Login Test", async ({ page }) => {
   const emailLocator = page.locator("#userEmail");
   const passwordLocator = page.locator("#userPassword");
   const emailId = "moni13@gmail.com";
@@ -39,6 +38,8 @@ test.only("Login Test", async ({ page }) => {
   const productName = "ZARA COAT 3";
   const dropdown = page.locator(".ta-results");
   const shippingInfo = page.locator(".user__name [type='text']");
+  const ordersButton = page.locator("ul .btn-custom");
+  const orderIdRow = page.locator("[scope='row']");
 
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await emailLocator.fill(emailId);
@@ -46,7 +47,7 @@ test.only("Login Test", async ({ page }) => {
   await loginBtn.click();
   await page.locator(".card-body h5 b").first().waitFor();
   const titles = await page.locator(".card-body b").allTextContents();
-  // console.log(titles);
+  console.log(titles);
 
   const count = await products.count();
 
@@ -84,7 +85,22 @@ test.only("Login Test", async ({ page }) => {
 
   await expect(page.locator(".hero-primary")).toContainText("Thankyou");
 
-  const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+  const orderId = await page
+    .locator(".em-spacer-1 .ng-star-inserted")
+    .textContent();
   console.log(orderId);
 
-}); 
+  await ordersButton.nth(1).click();
+
+  const orderCount = await page.locator(".table-bordered tbody tr").count();
+  console.log(orderCount);
+
+  for(let i = 0; i < orderCount; i++) {
+    console.log(orderIdRow.textContent());
+    if((orderIdRow.textContent()) === orderId){
+      await orderIdRow.locator(".btn-primary").click();
+      break;
+    }
+  }
+  await page.pause();
+});
