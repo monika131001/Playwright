@@ -31,10 +31,6 @@ test("Register Test", async ({ page }) => {
 test("Login Test", async ({ page }) => {
   const emailId = "moni13@gmail.com";
   const password = "Mn@123456";
-  const dropdown = page.locator(".ta-results");
-  const shippingInfo = page.locator(".user__name [type='text']");
-  const ordersButton = page.locator("ul .btn-custom");
-  const orderIdRow = page.locator("[scope='row']");
 
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await page.getByPlaceholder("email@example.com").fill(emailId);
