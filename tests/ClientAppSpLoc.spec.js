@@ -64,32 +64,22 @@ test("Login Test", async ({ page }) => {
 
   await expect(page.getByText("Thankyou for the order.")).toBeVisible();
 
+  const orderId = JSON.parse(
+    decodeURIComponent(page.url().split("prop=")[1]),
+  )[0];
+  /* const encodedProp = page.url().split("prop=")[1];  const decodedProp = decodeURIComponent(encodedProp);const propArray = JSON.parse(decodedProp)[0];const orderId = propArray[0];*/
+  await expect(page.getByRole("table").getByText(orderId)).toBeVisible();
+
   await page
     .getByRole("listitem")
     .getByRole("button", { name: "ORDERS" })
     .click();
 
-    // await page.getByLabel("")
+  const orderRow = await expect(page.getByRole("row").filter({ hasText: orderId })).toContainText(orderId);
 
+  await orderRow.getByRole("button", { name: "View" }).click();
+  await page.waitForSelector(".email-container");
 
-
-
-
-  // const orderId = await page
-  //   .locator(".em-spacer-1 .ng-star-inserted")
-  //   .textContent();
-  // console.log(orderId);
-
-  // await ordersButton.nth(1).click();
-
-
-
-  // for (let i = 0; i < orderCount; i++) {
-  //   console.log(orderIdRow.textContent());
-  //   if (orderIdRow.textContent() === orderId) {
-  //     await orderIdRow.locator(".btn-primary").click();
-  //     break;
-  //   }
-  // }
-  // await page.pause();
+  await expect(page.locator(".title")).toHaveText("ZARA COAT 3");
+  await expect(page.locator(".col-text")).toHaveText(orderId);
 });
