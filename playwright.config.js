@@ -1,4 +1,6 @@
 import { chromium, defineConfig, devices } from "@playwright/test";
+import { on } from "node:cluster";
+import { trace } from "node:console";
 
 const config = {
   testDir: "./tests",
@@ -11,6 +13,8 @@ const config = {
   use: {
     browserName: "chromium",
     headless: false,
+    screenshot: "on",
+    trace: "only-on-failure",
   },
 };
 
