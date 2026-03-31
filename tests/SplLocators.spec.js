@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.only("Playwright Special Locators", async ({ page }) => {
+test("Playwright Special Locators", async ({ page }) => {
   page.goto("https://rahulshettyacademy.com/angularpractice/");
   await page.getByLabel("Check me out if you Love IceCreams!").check();
   await page.getByLabel("Gender").selectOption("Female");
