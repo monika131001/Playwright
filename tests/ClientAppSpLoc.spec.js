@@ -28,9 +28,11 @@ test("Register Test", async ({ page }) => {
   await submitBtn.click();
 });
 
-test("Login Test", async ({ page }) => {
+test.only("Login Test", async ({ page }) => {
   const emailId = "moni13@gmail.com";
   const password = "Mn@123456";
+  const orderEntry = page.getByRole("row");
+  const productName = "ZARA COAT 3";
 
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   await page.getByPlaceholder("email@example.com").fill(emailId);
@@ -39,7 +41,7 @@ test("Login Test", async ({ page }) => {
   await page.locator(".card-body h5 b").first().waitFor();
   await page
     .locator(".card-body")
-    .filter({ hasText: "ZARA COAT 3" })
+    .filter({ hasText: productName })
     .getByRole("button", { name: " Add To Cart" })
     .click();
   await page
@@ -47,7 +49,7 @@ test("Login Test", async ({ page }) => {
     .getByRole("button", { name: " Cart" })
     .click();
   await page.locator("div li").first().waitFor();
-  await expect(page.getByText("ZARA COAT 3")).toBeVisible();
+  await expect(page.getByText(productName)).toBeVisible();
   await page.getByRole("button", { name: "Checkout" }).click();
 
   await page
@@ -71,11 +73,11 @@ test("Login Test", async ({ page }) => {
     .getByRole("button", { name: "ORDERS" })
     .click();
 
-  const orderRow = await expect(page.getByRole("row").filter({ hasText: orderId })).toContainText(orderId);
+  await expect(orderEntry.filter({ hasText: orderId })).toContainText(orderId);
 
-  await orderRow.getByRole("button", { name: "View" }).click();
+  await orderEntry.filter({ hasText: orderId }).getByRole("button", { name: "View" }).click();
   await page.waitForSelector(".email-container");
 
-  await expect(page.locator(".title")).toHaveText("ZARA COAT 3");
+  await expect(page.locator(".title")).toHaveText(productName);
   await expect(page.locator(".col-text")).toHaveText(orderId);
 });
