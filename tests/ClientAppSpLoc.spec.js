@@ -28,7 +28,7 @@ test("Register Test", async ({ page }) => {
   await submitBtn.click();
 });
 
-test.only("Login Test", async ({ page }) => {
+test("Login Test", async ({ page }) => {
   const emailId = "moni13@gmail.com";
   const password = "Mn@123456";
   const orderEntry = page.getByRole("row");

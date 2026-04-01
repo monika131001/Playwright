@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.only ("Shop Online with Google", async ({page}) =>  {
+test ("Shop Online with Google", async ({page}) =>  {
 
     const productName = "Wrist watches for women";
 
