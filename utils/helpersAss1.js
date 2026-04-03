@@ -9,6 +9,9 @@ async function registerUser(page, email, password) {
   await page.locator("#register-password").fill(password);
   await page.getByPlaceholder("Repeat your password").fill(password);
   await page.locator("#register-btn").click();
+  await expect(
+    page.getByRole("link", { name: "Browse Events →" }),
+  ).toBeVisible();
 }
 
 async function createEvent(page, eventTitle) {
@@ -38,7 +41,7 @@ async function getSeatCount(page, eventTitle) {
   return { seatsBeforeBooking, eventCards, targetCard };
 }
 
-async function bookEvent(page) {
+async function bookTicket(page) {
   await expect(page.locator("#ticket-count")).toHaveText("1");
   await page.getByLabel("Full Name").fill("Akshay Khanna");
   await page.locator("#customer-email").fill("akshay@gmail.com");
@@ -80,7 +83,7 @@ module.exports = {
   registerUser,
   createEvent,
   getSeatCount,
-  bookEvent,
+  bookTicket,
   validateBooking,
   validateBookingCard,
   verifySeats,
