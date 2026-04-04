@@ -102,5 +102,4 @@ test("Login Test", async ({ page }) => {
       break;
     }
   }
-  await page.pause();
 });

@@ -69,7 +69,6 @@ test("Child Window", async ({ browser }) => {
 
  await userName.fill(domain);
  console.log(await userName.inputValue());
- page.pause();
 
   
 });
