@@ -14,15 +14,15 @@ async function loginAndGoToBooking(page, email, password) {
   ).toBeVisible();
 }
 
-async function bookTicket(page, BASE_URL) {
+async function bookTicket(page, BASE_URL, name, email) {
   await page.goto(`${BASE_URL}/events`);
   await page
     .locator("[data-testid='event-card']")
     .first()
     .locator("[data-testid='book-now-btn']")
     .click();
-  await page.getByLabel("Full Name").fill("Akshay Khanna");
-  await page.locator("#customer-email").fill("akshay@gmail.com");
+  await page.getByLabel("Full Name").fill(name);
+  await page.locator("#customer-email").fill(email);
   await page.getByPlaceholder("+91 98765 43210").fill("1234567890");
   await page.locator(".confirm-booking-btn").click();
 }
@@ -31,9 +31,9 @@ async function myBookings(page, BASE_URL) {
   await page.locator("#nav-bookings").click();
   await expect(page).toHaveURL(`${BASE_URL}/bookings`);
   await page.getByRole("button", { name: "View Details" }).first().click();
-  await expect(page.locator("h2", { name: "Booking Information" })).toHaveText(
-    "Booking Information",
-  );
+  await expect(
+    page.getByRole("heading", { name: "Booking Information" }),
+  ).toBeVisible();
 }
 
 async function validateBookingRef(page) {
@@ -44,8 +44,8 @@ async function validateBookingRef(page) {
 }
 
 async function refundEligibility(page) {
-  const spinner = page.locator("#check-refund-btn");
-  await spinner.click();
+  await page.locator("#check-refund-btn").click();
+  const spinner = page.locator("#refund-spinner");
   await expect(spinner).toBeVisible();
   await expect(spinner).toBeHidden({ timeout: 6000 });
 }
@@ -59,7 +59,7 @@ async function refundResult(page) {
   );
 }
 
-async function ticketIncrement(page) {
+async function ticketIncrement(page, BASE_URL, name, email) {
   await page.goto(`${BASE_URL}/events`);
   await page
     .getByTestId("event-card")
@@ -69,6 +69,20 @@ async function ticketIncrement(page) {
   const plus = page.locator('button:has-text("+")');
   await plus.click();
   await plus.click();
+
+  await page.getByLabel("Full Name").fill(name);
+  await page.locator("#customer-email").fill(email);
+  await page.getByPlaceholder("+91 98765 43210").fill("1234567890");
+  await page.locator(".confirm-booking-btn").click();
+}
+
+async function validateResult(page) {
+  const refundResult = page.locator("#refund-result");
+  await expect(refundResult).toBeVisible();
+  await expect(refundResult).toContainText("Not eligible for refund");
+  await expect(refundResult).toContainText(
+    "Group bookings (3 tickets) are non-refundable",
+  );
 }
 
 module.exports = {
@@ -79,4 +93,5 @@ module.exports = {
   refundEligibility,
   refundResult,
   ticketIncrement,
+  validateResult,
 };
