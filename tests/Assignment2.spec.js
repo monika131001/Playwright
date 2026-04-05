@@ -23,7 +23,7 @@ test("Single ticket booking is eligible for refund", async ({ page }) => {
   await refundResult(page);
 });
 
-test.only("Group ticket booking is NOT eligible for refund", async ({
+test("Group ticket booking is NOT eligible for refund", async ({
   page,
 }) => {
   const name = "Test User";

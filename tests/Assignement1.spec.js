@@ -9,7 +9,7 @@ const {
   verifySeats,
 } = require("../utils/helpersAss1");
 
-test.only("Assignment 1", async ({ page }) => {
+test("Assignment 1", async ({ page }) => {
   const BASE_URL = "https://eventhub.rahulshettyacademy.com";
   const eventTitle = `Test Event ${Date.now()}`;
 
