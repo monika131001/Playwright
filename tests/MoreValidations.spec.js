@@ -14,11 +14,11 @@ test.only("Popup validations", async ({ page }) => {
   await page.locator("#confirmbtn").click();
   await page.locator("#mousehover").hover();
 
-  const framesPage = page.frameLocator("#courses-iframe");
-  await framesPage.locator("li a[href*='lifetime-access']:visible").click();
-  const textCheck = await framesPage
-    .locator(".text-center .text-2xl")
-    .first()
+  const heading = page.locator('iframe[name="iframe-name"]').contentFrame();
+  await heading.getByRole("link", { name: "NEW All Access plan" }).click();
+
+  const headingText = await heading
+    .getByRole("heading", { name: "Join 13,522 Happy Subscibers!" })
     .textContent();
-  console.log(textCheck);
+  console.log(headingText.split(" ")[1]);
 });
