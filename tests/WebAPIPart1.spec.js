@@ -5,9 +5,10 @@ const loginPayload = {
   userPassword: "Mn@123456",
 };
 const orderPayload = {
-  orders: [{ country: "India", productOrderedId: "6960ea76c941646b7a8b3dd5" }],
+  orders: [{ country: "Cuba", productOrderedId: "6960ea76c941646b7a8b3dd5" }],
 };
 let token;
+let orderId;
 
 test.beforeAll(async () => {
   //Login API
@@ -21,21 +22,19 @@ test.beforeAll(async () => {
   token = loginResponseJSON.token;
   console.log(token);
 
-  await apiContext.post(
+  const orderResponse = await apiContext.post(
     "https://rahulshettyacademy.com/api/ecom/order/create-order",
     {
       data: orderPayload,
       headers: { Authorization: token, "Content-type": "application/json" },
     },
   );
+  const orderResponseJSON = await orderResponse.json();
+  console.log(orderResponseJSON);
+  orderId = orderResponseJSON.orders[0];
 });
 
 test("Place the Order", async ({ page }) => {
-  const emailId = "moni13@gmail.com";
-  const products = page.locator(".card-body");
-  const productName = "ZARA COAT 3";
-  const dropdown = page.locator(".ta-results");
-  const shippingInfo = page.locator(".user__name [type='text']");
   const ordersButton = page.locator("ul .btn-custom");
   const orderIdRow = page.locator("[scope='row']");
 
@@ -43,60 +42,67 @@ test("Place the Order", async ({ page }) => {
     window.localStorage.setItem("token", value);
   }, token);
   await page.goto("https://rahulshettyacademy.com/client/");
+  await page.pause();
 
-  await page.locator(".card-body h5 b").first().waitFor();
-  const titles = await page.locator(".card-body b").allTextContents();
-  console.log(titles);
+  // const emailId = "moni13@gmail.com";
+  // const products = page.locator(".card-body");
+  // const productName = "ZARA COAT 3";
+  // const dropdown = page.locator(".ta-results");
+  // const shippingInfo = page.locator(".user__name [type='text']");
 
-  const count = await products.count();
+  // await page.locator(".card-body h5 b").first().waitFor();
+  // const titles = await page.locator(".card-body b").allTextContents();
+  // console.log(titles);
 
-  for (let i = 0; i < count; i++) {
-    if ((await products.nth(i).locator("b").textContent()) === productName) {
-      await products.nth(i).locator("text= Add To Cart").click();
-      break;
-    }
-  }
-  await page.locator("[routerlink*='cart']").click();
-  await page.locator("div li").first().waitFor();
-  const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
-  expect(bool).toBeTruthy();
+  // const count = await products.count();
 
-  await page.locator("text=Checkout").click();
-  await page
-    .locator("[placeholder*='Country']")
-    .pressSequentially("ind", { delay: 150 });
+  // for (let i = 0; i < count; i++) {
+  //   if ((await products.nth(i).locator("b").textContent()) === productName) {
+  //     await products.nth(i).locator("text= Add To Cart").click();
+  //     break;
+  //   }
+  // }
+  // await page.locator("[routerlink*='cart']").click();
+  // await page.locator("div li").first().waitFor();
+  // const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
+  // expect(bool).toBeTruthy();
 
-  await dropdown.waitFor();
-  const optionCount = await dropdown.locator("button").count();
-  // console.log(optionCount);
+  // await page.locator("text=Checkout").click();
+  // await page
+  //   .locator("[placeholder*='Country']")
+  //   .pressSequentially("ind", { delay: 150 });
 
-  for (let i = 0; i < optionCount; i++) {
-    const countryName = await dropdown.locator("button").nth(i).textContent();
+  // await dropdown.waitFor();
+  // const optionCount = await dropdown.locator("button").count();
+  // // console.log(optionCount);
 
-    if (countryName === " India") {
-      await dropdown.locator("button").nth(i).click();
-      break;
-    }
-  }
+  // for (let i = 0; i < optionCount; i++) {
+  //   const countryName = await dropdown.locator("button").nth(i).textContent();
 
-  await expect(shippingInfo.first()).toHaveText(emailId);
-  await page.locator(".action__submit").click();
+  //   if (countryName === " India") {
+  //     await dropdown.locator("button").nth(i).click();
+  //     break;
+  //   }
+  // }
 
-  await expect(page.locator(".hero-primary")).toContainText("Thankyou");
+  // await expect(shippingInfo.first()).toHaveText(emailId);
+  // await page.locator(".action__submit").click();
 
-  const orderId = await page
-    .locator(".em-spacer-1 .ng-star-inserted")
-    .textContent();
-  console.log(orderId);
+  // await expect(page.locator(".hero-primary")).toContainText("Thankyou");
+
+  // const orderId = await page
+  //   .locator(".em-spacer-1 .ng-star-inserted")
+  //   .textContent();
+  // console.log(orderId);
 
   await ordersButton.nth(1).click();
 
   const orderCount = await page.locator(".table-bordered tbody tr").count();
-  console.log(orderCount);
+  console.log("Order Count = "+orderCount);
 
   for (let i = 0; i < orderCount; i++) {
-    console.log(orderIdRow.textContent());
-    if (orderIdRow.textContent() === orderId) {
+    console.log(await orderIdRow.textContent());
+    if (await orderIdRow.textContent() === orderId) {
       await orderIdRow.locator(".btn-primary").click();
       break;
     }
