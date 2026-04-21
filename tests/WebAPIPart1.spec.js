@@ -1,6 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-const { stat } = require("node:fs");
-const { json } = require("node:stream/consumers");
+const { ApiUtils } = require("./utils/ApiUtils");
 const loginPayload = {
   userEmail: "moni13@gmail.com",
   userPassword: "Mn@123456",
@@ -8,27 +7,21 @@ const loginPayload = {
 const orderPayload = {
   orders: [{ country: "Cuba", productOrderedId: "6960ea76c941646b7a8b3dd5" }],
 };
+
 let token;
 let orderId;
 
 test.beforeAll(async () => {
   //Login API
-  const apiContext = await request.newContext(); // Create a new API request context (like a mini HTTP client)
-  
-
-  const orderResponse = await apiContext.post(
-    "https://rahulshettyacademy.com/api/ecom/order/create-order",
-    {
-      data: orderPayload,
-      headers: { Authorization: token, "Content-type": "application/json" },
-    },
-  );
-  const orderResponseJSON = await orderResponse.json();
-  console.log(orderResponseJSON);
-  orderId = orderResponseJSON.orders[0];
+  const apiContext = await request.newContext();
+  const apiUtils = new ApiUtils(apiContext, loginPayload);
+  apiUtils.createOrder(orderPayload);
 });
 
 test("Place the Order", async ({ page }) => {
+  // const apiUtils = new APIUtils(apiContext, loginPayload);
+  // const orderId = createOrder(orderPayload);
+
   // This script runs before the page loads
   await page.addInitScript((value) => {
     window.localStorage.setItem("token", value);
