@@ -30,7 +30,8 @@ class ApiUtils {
     const orderResponseJSON = await orderResponse.json();
     console.log(orderResponseJSON);
     const orderId = orderResponseJSON.orders[0];
-    return orderId;
+    response.orderId = orderId;
+    return response;
   }
 }
 
