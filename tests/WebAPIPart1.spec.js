@@ -11,14 +11,13 @@ const orderPayload = {
 let response;
 
 test.beforeAll(async () => {
-  //Login API
   const apiContext = await request.newContext();
-  const apiUtils = new ApiUtils(apiContext, loginPayload);
-  response = await apiUtils.createOrder(orderPayload);
+  const apiUtils = new ApiUtils(apiContext, loginPayload);  
+  response = await apiUtils.createOrder(orderPayload);  
 });
 
 test("Place the Order", async ({ page }) => {
-  // This script runs before the page loads
+  // Adds token to browser storage before page loads, Skips login UI
   await page.addInitScript((value) => {
     window.localStorage.setItem("token", value);
   }, response.token);
@@ -28,7 +27,7 @@ test("Place the Order", async ({ page }) => {
   await page.locator("tbody").waitFor();
   const rows = await page.locator("tbody tr");
 
-  for (let i = 0; i < (await rows.count); i++) {
+  for (let i = 0; i < await rows.count(); i++) {
     const rowOrderId = await rows.nth(i).locator("th").textContent();
     if (response.orderId.includes(rowOrderId)) {
       await rows.nth(i).locator("button").first().click();
