@@ -58,7 +58,6 @@ test("Login Test", async () => {
 
   await dropdown.waitFor();
   const optionCount = await dropdown.locator("button").count();
-  // console.log(optionCount);
 
   for (let i = 0; i < optionCount; i++) {
     const countryName = await dropdown.locator("button").nth(i).textContent();
