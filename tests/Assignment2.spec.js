@@ -8,7 +8,7 @@ const {
   refundResult,
   ticketIncrement,
   validateResult,
-} = require("../utils/helpersAss2");
+} = require("./utils/helpersAss2");
 
 test("Single ticket booking is eligible for refund", async ({ page }) => {
   const name = "Test User";

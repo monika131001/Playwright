@@ -7,7 +7,7 @@ const {
   validateBooking,
   validateBookingCard,
   verifySeats,
-} = require("../utils/helpersAss1");
+} = require("./utils/helpersAss1");
 
 test("Assignment 1", async ({ page }) => {
   const BASE_URL = "https://eventhub.rahulshettyacademy.com";
