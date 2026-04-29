@@ -21,5 +21,5 @@ test("Security test request interception", async ({ page }) => {
       }),
   );
   await page.locator("button:has-text('View')").first().click();
-  await page.pause();
+  // await page.pause();
 });
