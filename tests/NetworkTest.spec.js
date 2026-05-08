@@ -28,8 +28,8 @@ test("Place the Order", async ({ page }) => {
   // Set up network interception: catch requests matching this URL and handle them manually
   await page.route(
     "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*", //intercept any request hitting this endpoint
-    async (route) => {
-      const response = await page.request.fetch(route.request()); // Send the same request manually to the real backend and wait for its response
+    async (route) => {   
+      const response = await page.request.fetch(route.request());      //Take the intercepted browser request {route.request()} & manually send it to the actual server
       let body = JSON.stringify(fakePayloadOrders);
 
       // Fulfill the intercepted request with custom response
