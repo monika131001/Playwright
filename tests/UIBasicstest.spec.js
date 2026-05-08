@@ -1,12 +1,20 @@
 const { test, expect } = require("@playwright/test");
 const { TIMEOUT } = require("node:dns");
+const { request } = require("node:http");
 
 test("Browser Context Test", async ({ page }) => {
+  // page.route('**/*.css', route => route.abort());
   const userName = page.locator("#username");
   const password = page.locator("#password");
   const signIn = page.locator("[type='submit']");
   const cardTitles = page.locator(".card-body a");
   const errMessage = page.locator("[style*='block']");
+
+  // Listen to all network requests made by browser and print request URLs in console
+  page.on("request", (request) => console.log(request.url()));
+
+  // Listen to all server responses received by browser and print response URL with status code
+  page.on("response", (response) => console.log(response.url(), response.status()));
 
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   console.log(await page.title());
@@ -53,7 +61,7 @@ test("Child Window", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   const Link = page.locator("[href*='documents-request']");
-   const userName = page.locator("#username");
+  const userName = page.locator("#username");
 
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
@@ -67,8 +75,6 @@ test("Child Window", async ({ browser }) => {
   const domain = arrText[1].split(" ")[0];
   // console.log(domain);
 
- await userName.fill(domain);
- console.log(await userName.inputValue());
-
-  
+  await userName.fill(domain);
+  console.log(await userName.inputValue());
 });
