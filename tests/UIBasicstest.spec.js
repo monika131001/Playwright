@@ -14,7 +14,9 @@ test("Browser Context Test", async ({ page }) => {
   page.on("request", (request) => console.log(request.url()));
 
   // Listen to all server responses received by browser and print response URL with status code
-  page.on("response", (response) => console.log(response.url(), response.status()));
+  page.on("response", (response) =>
+    console.log(response.url(), response.status()),
+  );
 
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   console.log(await page.title());
@@ -58,13 +60,16 @@ test("UI Controls", async ({ page }) => {
 });
 
 test("Child Window", async ({ browser }) => {
+  //Create a new browser context and open a new page/tab inside the context
   const context = await browser.newContext();
   const page = await context.newPage();
+
   const Link = page.locator("[href*='documents-request']");
   const userName = page.locator("#username");
 
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
+  // Wait for new page event and click the link simultaneously Promise.all is used to avoid missing the child window event
   const [newPage] = await Promise.all([
     context.waitForEvent("page"),
     Link.click(),
