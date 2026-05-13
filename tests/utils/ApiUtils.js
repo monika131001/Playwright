@@ -11,7 +11,7 @@ class ApiUtils {
     const loginResponseJSON = await loginResponse.json();
     const token = loginResponseJSON.token;
     console.log(token);
-    return token;
+    return token; 
   }
 
   async createOrder(orderPayload) {
