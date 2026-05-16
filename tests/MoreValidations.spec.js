@@ -13,6 +13,7 @@ test.only("Popup validations", async ({ page }) => {
 
   page.on("dialog", (dialog) => dialog.accept());
   await page.locator("#confirmbtn").click();
+  
   await page.locator("#mousehover").hover();
 
   const heading = page.locator('iframe[name="iframe-name"]').contentFrame();
