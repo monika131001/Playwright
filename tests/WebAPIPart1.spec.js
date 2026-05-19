@@ -1,5 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-const { ApiUtils } = require("./utils/ApiUtils");
+const { ApiUtils } = require("../utils/ApiUtils");
 const loginPayload = {
   userEmail: "moni13@gmail.com",
   userPassword: "Mn@123456",
@@ -16,7 +16,7 @@ test.beforeAll(async () => {
   response = await apiUtils.createOrder(orderPayload);  
 });
 
-test("Place the Order", async ({ page }) => {
+test(" @API Place the Order", async ({ page }) => {
   // Adds token to browser storage before page loads, Skips login UI
   await page.addInitScript((value) => {
     window.localStorage.setItem("token", value);

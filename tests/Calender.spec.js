@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-test.only("Calender Test", async ({ page }) => {
+test("Calender Test", async ({ page }) => {
   const month = "6";
   const date = "15";
   const year = "2027";

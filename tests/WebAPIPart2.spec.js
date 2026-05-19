@@ -24,7 +24,7 @@ test.beforeAll(async ({ browser }) => {
   webContext = await browser.newContext({ storageState: "state.json" });
 });
 
-test("Login Test", async () => {
+test(" @API Login Test", async () => {
   const page = await webContext.newPage();
   const emailId = "moni13@gmail.com";
   const products = page.locator(".card-body");
