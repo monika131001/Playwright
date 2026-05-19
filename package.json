@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test tests/WebAPIPart1.spec.js --headed"
+    "regression": "npx playwright test",
+    "WebTest": "npx playwright test --grep @Web",
+    "APITest": "npx playwright test --grep @API",
+    "SafariNewConfig": "npx playwright test --config playwright.config1.js --project=webkit"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +15,9 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/node": "^25.5.0"
+    "@types/node": "^25.5.0",
+    "allure-playwright": "^3.8.0",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
