@@ -1,11 +1,12 @@
 import { chromium, defineConfig, devices } from "@playwright/test";
-import { on } from "node:cluster";
+import { on, worker } from "node:cluster";
 import { trace } from "node:console";
 import { permission } from "node:process";
 
 const config = {
   testDir: "./tests",
   retries: 1,
+  worker: 3,
   timeout: 30000,
   expect: {
     timeout: 50000,
