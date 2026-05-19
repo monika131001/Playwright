@@ -6,7 +6,7 @@ const { customtest } = require("../utils/test-base");
 
 for (const data of dataset) {
 
-  test(`Client App login ${data.productName}`, async ({ page }) => {
+  test(` @Web Client App login ${data.productName}`, async ({ page }) => {
     const poManager = new POManager(page);
 
     const products = page.locator(".card-body");
@@ -33,24 +33,24 @@ for (const data of dataset) {
 
   });
 
-
-  customtest.only("Client App login", async ({ page, testDataForOrder }) => {
-    const poManager = new POManager(page);
-
-    const products = page.locator(".card-body");
-    const loginPage = poManager.getLoginPage();
-    await loginPage.goTo();
-    await loginPage.validLogin(data.username, data.password);
-    const dashboardPage = poManager.getDashboardPage();
-    await dashboardPage.searchProductAddCart(data.productName);
-
-    await dashboardPage.navigateToCart();
-
-    const cartPage = poManager.getCartPage();
-    await cartPage.VerifyProductIsDisplayed(data.productName);
-    await cartPage.Checkout();
-  });
 }
+customtest("Login using custom test", async ({ page, testDataForOrder }) => {
+  const poManager = new POManager(page);
+
+  const products = page.locator(".card-body");
+  const loginPage = poManager.getLoginPage();
+  await loginPage.goTo();
+  await loginPage.validLogin(data.username, data.password);
+  const dashboardPage = poManager.getDashboardPage();
+  await dashboardPage.searchProductAddCart(data.productName);
+
+  await dashboardPage.navigateToCart();
+
+  const cartPage = poManager.getCartPage();
+  await cartPage.VerifyProductIsDisplayed(data.productName);
+  await cartPage.Checkout();
+});
+
 
 
 
