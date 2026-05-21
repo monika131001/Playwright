@@ -1,8 +1,8 @@
-const dataset = JSON.parse(JSON.stringify(require("../test-data/place_order.json")));
-const { customtest } = require("../utils/test-base");
-
-import {test, expect} from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { POManager } from "../PageObjects_TS/POManager";
+import { customTest } from "../utils_ts/test-base";
+const dataset = JSON.parse(JSON.stringify(require("../test-data/place_order.json")));
+// import dataset from "../test-data/place_order.json";
 
 for (const data of dataset) {
 
@@ -24,7 +24,8 @@ for (const data of dataset) {
 
     const ordersReviewPage = poManager.getOrdersReviewPage();
     await ordersReviewPage.searchCountryAndSelect("ind", "India");
-    const orderId = await ordersReviewPage.SubmitAndGetOrderId();
+    let orderId: any;
+    orderId = await ordersReviewPage.SubmitAndGetOrderId();
     console.log(orderId);
     await dashboardPage.navigateToOrders();
     const ordersHistoryPage = poManager.getOrdersHistoryPage();
@@ -34,20 +35,20 @@ for (const data of dataset) {
   });
 
 }
-customtest("Login using custom test", async ({ page, testDataForOrder }) => {
+customTest("Login using custom test", async ({ page, testDataForOrder }) => {
   const poManager = new POManager(page);
 
   const products = page.locator(".card-body");
   const loginPage = poManager.getLoginPage();
   await loginPage.goTo();
-  await loginPage.validLogin(data.username, data.password);
+  await loginPage.validLogin(testDataForOrder.username, testDataForOrder.password);
   const dashboardPage = poManager.getDashboardPage();
-  await dashboardPage.searchProductAddCart(data.productName);
+  await dashboardPage.searchProductAddCart(testDataForOrder.productName);
 
   await dashboardPage.navigateToCart();
 
   const cartPage = poManager.getCartPage();
-  await cartPage.VerifyProductIsDisplayed(data.productName);
+  await cartPage.VerifyProductIsDisplayed(testDataForOrder.productName);
   await cartPage.Checkout();
 });
 

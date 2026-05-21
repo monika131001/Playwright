@@ -1,4 +1,4 @@
-import { Locator, Page } from "playwright";
+import { Locator, Page } from "@playwright/test";
 
 export class LoginPage {
 
@@ -28,4 +28,3 @@ export class LoginPage {
     }
 
 }
-module.exports = { LoginPage };

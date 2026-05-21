@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { Locator, Page } from "playwright";
+import { Locator, Page } from "@playwright/test";
 
 export class CartPage {
 
@@ -36,4 +36,3 @@ export class CartPage {
     }
 
 }
-module.exports = { CartPage };

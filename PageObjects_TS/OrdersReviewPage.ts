@@ -1,7 +1,4 @@
-import { Locator, Page } from "playwright";
-
-const { expect } = require("@playwright/test");
-
+import { Page, Locator, expect } from "@playwright/test";
 export class OrdersReviewPage {
     page: Page;
     country: Locator;
@@ -19,10 +16,9 @@ export class OrdersReviewPage {
         this.submit = page.locator(".action__submit");
         this.orderConfirmationText = page.locator(".hero-primary");
         this.orderId = page.locator(".em-spacer-1 .ng-star-inserted");
-
     }
-    async searchCountryAndSelect(countryCode:string , countryName:string ) {
 
+    async searchCountryAndSelect(countryCode:string , countryName:string ) {
         await this.country.type(countryCode, { delay: 100 });
         await this.dropdown.waitFor();
         const optionsCount = await this.dropdown.locator("button").count();
@@ -34,7 +30,6 @@ export class OrdersReviewPage {
                 break;
             }
         }
-
     }
 
     async VerifyEmailId(username:string) {
@@ -47,4 +42,3 @@ export class OrdersReviewPage {
         return await this.orderId.textContent();
     }
 }
-module.exports = { OrdersReviewPage };

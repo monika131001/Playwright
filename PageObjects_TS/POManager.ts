@@ -3,7 +3,7 @@ import { DashboardPage } from './DashboardPage';
 import { OrdersHistoryPage } from './OrdersHistoryPage';
 import { OrdersReviewPage } from './OrdersReviewPage';
 import { CartPage } from './CartPage';
-import { Locator, Page } from 'playwright';
+import { Page } from "@playwright/test";
 
 export class POManager {
     page: Page;
@@ -41,4 +41,3 @@ export class POManager {
         return this.ordersReviewPage;
     }
 }
-module.exports = { POManager };

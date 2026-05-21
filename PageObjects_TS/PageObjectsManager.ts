@@ -1,8 +1,14 @@
-const LoginPage = require("./LoginPage");
-const DashboardPage = require("./DashboardPage");
+import { Page } from  "@playwright/test";
+import { LoginPage } from "./LoginPage";
+import { DashboardPage } from "./DashboardPage";
 
-class PageObjectsManager {
-    constructor(page) {
+export class PageObjectsManager {
+
+    page: Page;
+    loginPage: LoginPage;
+    dashboardPage: DashboardPage;
+
+    constructor(page: Page) {
         this.page = page;
         this.loginPage = new LoginPage(this.page);
         this.dashboardPage = new DashboardPage(this.page);
@@ -16,5 +22,3 @@ class PageObjectsManager {
         return this.dashboardPage;
     }
 }
-
-module.exports = PageObjectsManager;

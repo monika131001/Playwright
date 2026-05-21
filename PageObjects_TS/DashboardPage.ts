@@ -1,4 +1,4 @@
-import { Locator, Page } from "playwright";
+import { Locator, Page } from "@playwright/test";
 
 export class DashboardPage {
 
@@ -41,4 +41,3 @@ export class DashboardPage {
     }
 
 }
-module.exports = { DashboardPage };

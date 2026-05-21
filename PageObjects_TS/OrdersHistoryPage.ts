@@ -1,4 +1,4 @@
-import { Locator, Page } from "playwright";
+import { Locator, Page } from "@playwright/test";
 
 export class OrdersHistoryPage {
 
@@ -6,7 +6,6 @@ export class OrdersHistoryPage {
     ordersTable: Locator;
     rows: Locator;
     orderdIdDetails: Locator;
-
 
     constructor(page: Page) {
         this.page = page;
@@ -24,12 +23,9 @@ export class OrdersHistoryPage {
                 break;
             }
         }
-
     }
 
     async getOrderId() {
         return await this.orderdIdDetails.textContent();
     }
-
 }
-module.exports = { OrdersHistoryPage };
