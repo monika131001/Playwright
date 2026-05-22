@@ -7,14 +7,17 @@ class CartPage {
         this.cart = page.locator("[routerlink*='cart']");
         this.orders = page.locator("button[routerlink*='myorders']");
         this.checkout = page.locator("text=Checkout");
+
+        this.myCart = page.locator(".heading h1");
     }
 
     async VerifyProductIsDisplayed(productName) {
-
-        await this.cartProducts.waitFor();
-        const bool = await this.getProductLocator(productName).isVisible();
-        expect(bool).toBeTruthy();
-
+        await this.myCart.waitFor();
+        console.log("My cart is visible");
+        // await this.cartProducts.waitFor();
+        await expect(this.getProductLocator(productName)).toBeVisible();
+        // const bool = await this.getProductLocator(productName).isVisible();
+        // expect(bool).toBeTruthy();
     }
 
     async Checkout() {

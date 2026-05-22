@@ -16,6 +16,7 @@ class DashboardPage {
         for (let i = 0; i < count; i++) {
             if ((await this.products.nth(i).locator("b").textContent()) === productName) {
                 await this.products.nth(i).locator("text= Add To Cart").click();
+                console.log("Product Added to cart!");
                 break;
             }
         }
