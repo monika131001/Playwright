@@ -37,7 +37,6 @@ for (const data of dataset) {
 customTest("Login using custom test", async ({ page, testDataForOrder }) => {
   const poManager = new POManager(page);
 
-  const products = page.locator(".card-body");
   const loginPage = poManager.getLoginPage();
   await loginPage.goTo();
   await loginPage.validLogin(testDataForOrder.username, testDataForOrder.password);
